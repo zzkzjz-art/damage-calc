@@ -287,16 +287,94 @@ app.get('/openapi.json', (req, res) => {
             }
           },
 
-          responses: {
+       responses: {
 
-            '200': {
-              description: 'Damage calculation result'
+  '200': {
+    description: 'Damage calculation result',
+
+    content: {
+      'application/json': {
+
+        schema: {
+          type: 'object',
+
+          properties: {
+
+            attacker: {
+              type: 'string'
             },
 
-            '400': {
-              description: 'Invalid calculation request'
+            defender: {
+              type: 'string'
+            },
+
+            move: {
+              type: 'string'
+            },
+
+            damage: {
+              type: 'object',
+
+              properties: {
+                min: {
+                  type: 'integer'
+                },
+                max: {
+                  type: 'integer'
+                }
+              },
+
+              required: [
+                'min',
+                'max'
+              ]
+            },
+
+            percent: {
+              type: 'object',
+
+              properties: {
+                min: {
+                  type: 'number'
+                },
+                max: {
+                  type: 'number'
+                }
+              },
+
+              required: [
+                'min',
+                'max'
+              ]
+            },
+
+            defender_max_hp: {
+              type: 'integer'
+            },
+
+            description: {
+              type: 'string'
             }
-          }
+          },
+
+          required: [
+            'attacker',
+            'defender',
+            'move',
+            'damage',
+            'percent',
+            'defender_max_hp',
+            'description'
+          ]
+        }
+      }
+    }
+  },
+
+  '400': {
+    description: 'Invalid calculation request'
+  }
+}
         }
       }
     },
