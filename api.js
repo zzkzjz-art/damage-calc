@@ -108,6 +108,34 @@ function calculateDamage(body) {
 
   const defenderHP = defender.maxHP();
 
+// 타입 상성, 특성 등으로 완전 무효인 경우
+if (maxDamage === 0) {
+  return {
+    attacker: attacker.name,
+    defender: defender.name,
+    move: move.name,
+
+    attacker_stats: attacker.rawStats,
+    defender_stats: defender.rawStats,
+
+    damage: {
+      min: 0,
+      max: 0
+    },
+
+    percent: {
+      min: 0,
+      max: 0
+    },
+
+    defender_max_hp: defenderHP,
+
+    immune: true,
+
+    description:
+      `${attacker.name} ${move.name} vs. ${defender.name}: 0 damage -- immune`
+  };
+}
   const minPercent =
     Math.floor((minDamage / defenderHP) * 1000) / 10;
 
@@ -133,6 +161,8 @@ function calculateDamage(body) {
     },
 
     defender_max_hp: defenderHP,
+
+    immune: false,
 
     description: result.fullDesc()
   };
@@ -942,22 +972,29 @@ app.get('/openapi.json', (req, res) => {
               type: 'integer'
             },
 
-            description: {
+immune: {
+  type: 'boolean',
+  description:
+    'True when the move does zero damage because the target is immune.'
+},
+ 
+           description: {
               type: 'string'
             }
 
           },
 
 
-          required: [
-            'attacker',
-            'defender',
-            'move',
-            'damage',
-            'percent',
-            'defender_max_hp',
-            'description'
-          ]
+required: [
+  'attacker',
+  'defender',
+  'move',
+  'damage',
+  'percent',
+  'defender_max_hp',
+  'immune',
+  'description'
+]
 
         },
 
