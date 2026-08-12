@@ -81,13 +81,11 @@ function calculateDamage(body) {
 
   const defenderHP = defender.maxHP();
 
-  const minPercent = Number(
-    ((minDamage / defenderHP) * 100).toFixed(1)
-  );
+const minPercent =
+  Math.floor((minDamage / defenderHP) * 1000) / 10;
 
-  const maxPercent = Number(
-    ((maxDamage / defenderHP) * 100).toFixed(1)
-  );
+const maxPercent =
+  Math.floor((maxDamage / defenderHP) * 1000) / 10;
 
   return {
     attacker: attacker.name,
